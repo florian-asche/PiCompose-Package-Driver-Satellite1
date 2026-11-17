@@ -11,9 +11,7 @@ Package: picompose-driver-satellite1
 Architecture: all
 Depends: ${misc:Depends},
  wireplumber,
- alsa-utils,
- wget,
- ca-certificates
+ alsa-utils
 Provides: picompose-audio-driver
 Conflicts: picompose-audio-driver
 Replaces: picompose-audio-driver
@@ -23,10 +21,8 @@ Description: PiCompose audio setup for the Satellite1
  sets the volume of the default sound card and its PipeWire sink to the
  maximum when the system starts.
  .
- The driver itself comes from three packages of FutureProofHomes (kernel,
- satellite1-rpi-setup and satellite1-rpi-sdk). A service downloads them from
- the GitHub releases of FutureProofHomes at the next boot and installs them
- with dpkg, until FutureProofHomes provides an APT repository.
+ The driver itself, the kernel and the packages of FutureProofHomes, is not
+ part of this package, the PiCompose image installs it.
  .
  The package provides picompose-audio-driver, so only one audio driver package
  can be installed.

@@ -9,7 +9,7 @@ Package `picompose-driver-satellite1` for the [PiCompose APT repository](https:/
 - Documentation, code comments, commit and PR text are in English, whatever language the conversation is in.
 - **Open points live in `todo.md`.** Read it before you start. When the developer postpones something ("we do that later") or you find something you cannot settle in this change, add an entry there, and remove the entry in the change that settles it.
 - Do not edit `debian/changelog`. The workflows write it: every pull request needs exactly one of the labels `major`, `minor` and `patch` (tick one box under "Version bump" in the pull request description), and the version follows from it when the pull request is merged.
-- The packages never download anything while they are built or installed. The only exception is `satellite1-fph-packages.service` of this package, which downloads the packages of FutureProofHomes at boot until they have an APT repository (see `todo.md`). Third-party sources are kept in the repository with their license and noted in `debian/copyright` and the README.
+- The packages never download anything while they are built or installed.  Third-party sources are kept in the repository with their license and noted in `debian/copyright` and the README.
 - Maintainer scripts must be idempotent, run without prompts, and not fail when the hardware is missing. Units are installed to `/usr/lib/systemd/system` and enabled with `dh_installsystemd`, without `systemctl` calls. Defaults for user-owned locations are shipped below `/usr/share` and copied by `postinst` only if missing.
 - Hardware behavior (audio, boot configuration, kernel modules, I2C) cannot be tested here. Say that it was not tested on hardware, never claim it was.
 
