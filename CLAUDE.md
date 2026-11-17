@@ -35,6 +35,6 @@ The package has to work on the Raspberry Pi OS that the PiCompose images are bui
    - The architectures: the images are built for arm64, check whether armhf is still needed.
    - Defaults of the base system that the package relies on: the user `pi` with the UID 1000, systemd, PipeWire and WirePlumber, `cron`.
    Specific to this package:
-   - The packages of FutureProofHomes that `satellite1-install-fph-packages` installs (kernel, `satellite1-rpi-setup`, `satellite1-rpi-sdk`): the versions must be the ones the image installs, and they have to fit the kernel and the release. The custom kernel is to go away.
+   - The packages of FutureProofHomes that the PiCompose image installs for the Satellite1 (kernel, `satellite1-rpi-setup`, `satellite1-rpi-sdk`). This package does not install them, but its configuration has to fit the versions the image installs, the kernel and the release.
    - The WirePlumber card name in `51-disable-acp.conf` (`alsa_card.platform-soc_sound`) against the kernel and the WirePlumber of the release.
 3. **Write down the verdict**: which release, kernel and image definition you looked at, what you checked and how (commands), what you could not check (hardware), and what has to change if the base moves, for example to a new Debian release. If a change makes the package fit only a newer or only an older base than the images use, say so and ask the developer before going on.
