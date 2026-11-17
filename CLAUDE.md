@@ -7,8 +7,9 @@ Package `picompose-driver-satellite1` for the [PiCompose APT repository](https:/
 - **PiCompose and linux-voice-assistant are read only.** Never change anything in the PiCompose repository or in the linux-voice-assistant repository, not locally and not on GitHub. They are references for what the image does and what the voice assistant needs.
 - Nothing is posted to GitHub (pull requests, discussions, comments) and nothing is pushed without the explicit consent of the developer. A human reviews every change, see `.github/AI_POLICY.md`.
 - Documentation, code comments, commit and PR text are in English, whatever language the conversation is in.
+- **Open points live in `todo.md`.** Read it before you start. When the developer postpones something ("we do that later") or you find something you cannot settle in this change, add an entry there, and remove the entry in the change that settles it.
 - Do not edit `debian/changelog`. The workflows write it: every pull request needs exactly one of the labels `major`, `minor` and `patch` (tick one box under "Version bump" in the pull request description), and the version follows from it when the pull request is merged.
-- The packages never download anything while they are built or installed. Third-party sources are kept in the repository with their license and noted in `debian/copyright` and the README.
+- The packages never download anything while they are built or installed. The only exception is `satellite1-fph-packages.service` of this package, which downloads the packages of FutureProofHomes at boot until they have an APT repository (see `todo.md`). Third-party sources are kept in the repository with their license and noted in `debian/copyright` and the README.
 - Maintainer scripts must be idempotent, run without prompts, and not fail when the hardware is missing. Units are installed to `/usr/lib/systemd/system` and enabled with `dh_installsystemd`, without `systemctl` calls. Defaults for user-owned locations are shipped below `/usr/share` and copied by `postinst` only if missing.
 - Hardware behavior (audio, boot configuration, kernel modules, I2C) cannot be tested here. Say that it was not tested on hardware, never claim it was.
 
@@ -34,6 +35,6 @@ The package has to work on the Raspberry Pi OS that the PiCompose images are bui
    - The architectures: the images are built for arm64, check whether armhf is still needed.
    - Defaults of the base system that the package relies on: the user `pi` with the UID 1000, systemd, PipeWire and WirePlumber, `cron`.
    Specific to this package:
-   - The packages `satellite1-rpi-setup` and `satellite1-rpi-sdk` of FutureProofHomes: which versions the image installs, and that they fit the kernel and the release. The custom kernel is to go away, so do not depend on it.
+   - The packages of FutureProofHomes that `satellite1-install-fph-packages` installs (kernel, `satellite1-rpi-setup`, `satellite1-rpi-sdk`): the versions must be the ones the image installs, and they have to fit the kernel and the release. The custom kernel is to go away.
    - The WirePlumber card name in `51-disable-acp.conf` (`alsa_card.platform-soc_sound`) against the kernel and the WirePlumber of the release.
 3. **Write down the verdict**: which release, kernel and image definition you looked at, what you checked and how (commands), what you could not check (hardware), and what has to change if the base moves, for example to a new Debian release. If a change makes the package fit only a newer or only an older base than the images use, say so and ask the developer before going on.
