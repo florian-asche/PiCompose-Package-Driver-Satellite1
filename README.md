@@ -2,6 +2,8 @@
 
 Package `picompose-driver-satellite1` for the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). It is the audio setup for the Satellite1 of [FutureProofHomes](https://github.com/FutureProofHomes). It is the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image as a package.
 
+What differs from how the stage does it is documented in [diff.md](diff.md) (in German).
+
 ## Contents
 
 | Part | Files |
