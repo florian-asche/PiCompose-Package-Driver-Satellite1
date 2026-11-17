@@ -8,14 +8,20 @@ Package `picompose-driver-satellite1` for the [PiCompose APT repository](https:/
 | --- | --- |
 | WirePlumber | `/etc/wireplumber/wireplumber.conf.d/51-disable-acp.conf` turns off the ALSA card profile handling (ACP) for the card `alsa_card.platform-soc_sound` |
 | Volume setup | `/usr/bin/configure_audio.sh`, `configure_audio.service` (enabled, not started at install) |
+| FutureProofHomes packages | `/usr/bin/satellite1-install-fph-packages`, `satellite1-fph-packages.service` (enabled, not started at install) |
 
 The files are the ones of the image without changes.
 
 ## The driver comes from FutureProofHomes
 
-The image downloads three packages from the GitHub releases of FutureProofHomes while it is built: the custom kernel `linux-image-6.18.34-fusb302-rpi-v8`, `satellite1-rpi-setup` and `satellite1-rpi-sdk`. This package depends on `satellite1-rpi-setup` and `satellite1-rpi-sdk`, but **not** on the kernel, because the custom kernel is to go away.
+The image downloads three packages from the GitHub releases of FutureProofHomes while it is built and installs them with `dpkg`: the custom kernel `linux-image-6.18.34-fusb302-rpi-v8`, `satellite1-rpi-setup` and `satellite1-rpi-sdk`. This package does the same, with the same versions and in the same order, until FutureProofHomes provides an APT repository:
 
-None of these packages is in an APT repository, so apt cannot resolve the dependencies, and this package cannot be installed with apt until they are. Open decision: FutureProofHomes publishes an APT repository, or the packages are mirrored here with their consent. A package never downloads files while it is installed.
+- `/usr/bin/satellite1-install-fph-packages` downloads the three files with `wget` and installs them with `dpkg -i`. The versions are variables at the top of the script.
+- `satellite1-fph-packages.service` runs it **once, at the next boot**, after the network is online, and retries every 30 seconds if it fails. A marker file `/var/lib/picompose/satellite1-fph-packages-installed` records that it is done.
+- It cannot run in the `postinst`, because `dpkg` is locked while the package is installed and cannot install other packages. You can also run `sudo satellite1-install-fph-packages` by hand.
+- The kernel is only used after one more reboot.
+
+This is a temporary exception: otherwise no package downloads anything while it is installed. Replace it with `Depends` on the packages of FutureProofHomes once they have an APT repository, see `todo.md`.
 
 ## One driver per system
 
