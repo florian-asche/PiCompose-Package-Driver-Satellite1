@@ -1,5 +1,11 @@
-picompose-driver-satellite1 (0.0.0) trixie; urgency=medium
+picompose-driver-satellite1 (0.0.1) trixie; urgency=medium
 
-  * Placeholder. The workflows write this file when a pull request is merged.
+  * Add CLAUDE.md with the working rules and the Raspberry Pi OS compatibility check
+  * Install the FutureProofHomes packages like the PiCompose image does
+  * Add todo.md with the open points and the rule to keep them there
+  * Remove the service that installs the FutureProofHomes packages
+  * Update the compatibility check in CLAUDE.md for the removed service
+  * Add diff.md with the deviations from the PiCompose stage and update the working rules
+  * Call the shared workflows with a version and add the status badges (#1)
 
- -- Florian Asche <github@florian-asche.de>  Tue, 17 Nov 2026 00:00:00 +0100
+ -- Florian Asche <github@florian-asche.de>  Wed, 18 Nov 2026 03:09:00 +0000
