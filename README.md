@@ -1,5 +1,7 @@
 # PiCompose-Package-Driver-Satellite1
 
+[![Version](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/actions/workflows/version.yml/badge.svg?branch=main)](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/actions/workflows/version.yml) [![GitHub Release Version](https://img.shields.io/github/v/release/florian-asche/PiCompose-Package-Driver-Satellite1?label=version)](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/releases) [![GitHub License](https://img.shields.io/github/license/florian-asche/PiCompose-Package-Driver-Satellite1)](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/blob/main/LICENSE)
+
 Package `picompose-driver-satellite1` for the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). It is the audio setup for the Satellite1 of [FutureProofHomes](https://github.com/FutureProofHomes). It is the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image as a package.
 
 What differs from how the stage does it is documented in [diff.md](diff.md) (in German).
