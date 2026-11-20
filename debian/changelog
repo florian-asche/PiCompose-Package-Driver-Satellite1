@@ -1,3 +1,9 @@
+picompose-driver-satellite1 (1.0.0) trixie; urgency=medium
+
+  * Publish the packages of FutureProofHomes for the Satellite1 unchanged (#4)
+
+ -- Florian Asche <github@florian-asche.de>  Fri, 20 Nov 2026 20:21:13 +0000
+
 picompose-driver-satellite1 (0.0.3) trixie; urgency=medium
 
   * Use version 1.1.0 of the shared workflows (#6)
