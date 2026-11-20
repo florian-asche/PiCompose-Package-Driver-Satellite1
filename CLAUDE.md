@@ -1,6 +1,6 @@
 # AI working guide for PiCompose-Package-Driver-Satellite1
 
-Package `picompose-driver-satellite1` for the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). It is the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image as a Debian package. Read `README.md` for what the package contains. When this file and the code disagree, the code wins, fix this file in the same change.
+Publishes the packages `satellite1-rpi-setup-trixie` and `satellite1-rpi-sdk` of FutureProofHomes unchanged to the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). They replace the downloads of the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image. `debian/rules` downloads the `.deb` files at build time and checks the SHA256. Read `README.md` for what the package contains. When this file and the code disagree, the code wins, fix this file in the same change.
 
 ## Rules
 
@@ -11,14 +11,14 @@ Package `picompose-driver-satellite1` for the [PiCompose APT repository](https:/
 - **Open points live in `todo.md`.** Read it before you start. When the developer postpones something ("we do that later") or you find something you cannot settle in this change, add an entry there, and remove the entry in the change that settles it.
 - Do not edit `debian/changelog`. The workflows write it: every pull request needs exactly one of the labels `major`, `minor` and `patch` (tick one box under "Version bump" in the pull request description), and the version follows from it when the pull request is merged.
 - The packages never download anything while they are installed. Where the PiCompose stage downloaded sources while it built the image, the package build downloads the same (see `diff.md` and `debian/rules`), and no third-party sources are stored in this repository.
-- Maintainer scripts must be idempotent, run without prompts, and not fail when the hardware is missing. Units are installed to `/usr/lib/systemd/system` and enabled with `dh_installsystemd`, without `systemctl` calls. Defaults for user-owned locations are shipped below `/usr/share` and copied by `postinst` only if missing.
+- The packages of FutureProofHomes are published unchanged. Do not repack them. Every download has a checksum in `debian/rules`, update the checksum together with the URL. `debian/skip-lintian` makes the shared build skip lintian, keep it only while this repository republishes packages of others.
 - Hardware behavior (audio, boot configuration, kernel modules, I2C) cannot be tested here. Say that it was not tested on hardware, never claim it was.
 
 ## Commands
 
 | Task | Command |
 | --- | --- |
-| Build and lint like the CI | in a `debian:trixie` container: `apt-get build-dep ./`, `dpkg-buildpackage -us -uc -b`, `lintian --fail-on error ../*.deb` |
+| Build and lint like the CI | in a `debian:trixie` container: `apt-get build-dep ./`, `dpkg-buildpackage -us -uc -b -a arm64 -d` (lintian is skipped, see `debian/skip-lintian`) |
 | Build with the scripts of the APT repository | `PiCompose-Repository/scripts/build-package.sh <this directory> amd64` |
 | Test a maintainer script | run it with `sh` in a container against a copy of the files it changes |
 
@@ -36,6 +36,6 @@ The package has to work on the Raspberry Pi OS that the PiCompose images are bui
    - The architectures: the images are built for arm64, check whether armhf is still needed.
    - Defaults of the base system that the package relies on: the user `pi` with the UID 1000, systemd, PipeWire and WirePlumber, `cron`.
    Specific to this package:
-   - The packages of FutureProofHomes that the PiCompose image installs for the Satellite1 (kernel, `satellite1-rpi-setup`, `satellite1-rpi-sdk`). This package does not install them, but its configuration has to fit the versions the image installs, the kernel and the release.
-   - The WirePlumber card name in `51-disable-acp.conf` (`alsa_card.platform-soc_sound`) against the kernel and the WirePlumber of the release.
+   - The packages of FutureProofHomes are built for Debian trixie (`satellite1-rpi-setup-trixie`). Check that the release of the image is still trixie, and that their `Depends` (`python3-venv`, `python3-pip`, `flashrom`, `libasound2-plugins`) exist in that release and in the Raspberry Pi archive.
+   - They are `arm64` only, check that no image needs armhf or amd64 with the Satellite1.
 3. **Write down the verdict**: which release, kernel and image definition you looked at, what you checked and how (commands), what you could not check (hardware), and what has to change if the base moves, for example to a new Debian release. If a change makes the package fit only a newer or only an older base than the images use, say so and ask the developer before going on.
