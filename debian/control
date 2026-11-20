@@ -1,28 +1,25 @@
 Source: picompose-driver-satellite1
-Section: sound
+Section: misc
 Priority: optional
 Maintainer: Florian Asche <github@florian-asche.de>
-Build-Depends: debhelper-compat (= 13)
+Build-Depends: debhelper-compat (= 13), wget, ca-certificates
 Standards-Version: 4.7.0
 Homepage: https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1
 Rules-Requires-Root: no
 
-Package: picompose-driver-satellite1
-Architecture: all
-Depends: ${misc:Depends},
- wireplumber,
- alsa-utils
-Provides: picompose-audio-driver
-Conflicts: picompose-audio-driver
-Replaces: picompose-audio-driver
-Description: PiCompose audio setup for the Satellite1
- Audio setup for the Satellite1 of FutureProofHomes: it disables the ALSA
- card profile handling of WirePlumber for the sound card of the board and
- sets the volume of the default sound card and its PipeWire sink to the
- maximum when the system starts.
- .
- The driver itself, the kernel and the packages of FutureProofHomes, is not
- part of this package, the PiCompose image installs it.
- .
- The package provides picompose-audio-driver, so only one audio driver package
- can be installed.
+Package: satellite1-rpi-setup-trixie
+Architecture: arm64
+Depends: ${misc:Depends}, python3-venv, python3-pip, flashrom, libasound2-plugins
+Recommends: alsa-utils, lm-sensors
+Conflicts: satellite1-rpi-setup
+Replaces: satellite1-rpi-setup
+Description: Satellite1 I2S overlay, ALSA config, and boot-time I2C init
+ Package of FutureProofHomes, published unchanged: the device tree overlay,
+ the ALSA configuration and the ACP profile set for the Satellite1.
+
+Package: satellite1-rpi-sdk
+Architecture: arm64
+Depends: ${misc:Depends}, python3-venv, python3-pip, flashrom
+Description: Satellite1 Python SDK and boot-time I2C init
+ Package of FutureProofHomes, published unchanged: the Python SDK of the
+ Satellite1 and the service that initializes the IO expander and the DAC.

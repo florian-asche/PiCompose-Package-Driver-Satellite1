@@ -2,28 +2,27 @@
 
 [![Version](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/actions/workflows/version.yml/badge.svg?branch=main)](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/actions/workflows/version.yml) [![GitHub Release Version](https://img.shields.io/github/v/release/florian-asche/PiCompose-Package-Driver-Satellite1?label=version)](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/releases) [![GitHub License](https://img.shields.io/github/license/florian-asche/PiCompose-Package-Driver-Satellite1)](https://github.com/florian-asche/PiCompose-Package-Driver-Satellite1/blob/main/LICENSE)
 
-Package `picompose-driver-satellite1` for the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). It is the audio setup for the Satellite1 of [FutureProofHomes](https://github.com/FutureProofHomes). It is the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image as a package.
+This repository publishes the packages of [FutureProofHomes](https://github.com/FutureProofHomes) for the Satellite1 to the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository), unchanged. It replaces the downloads of the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image, so the image can install them with `apt`.
 
 What differs from how the stage does it is documented in [diff.md](diff.md) (in German).
 
 ## Contents
 
-| Part | Files |
-| --- | --- |
-| WirePlumber | `/etc/wireplumber/wireplumber.conf.d/51-disable-acp.conf` turns off the ALSA card profile handling (ACP) for the card `alsa_card.platform-soc_sound` |
-| Volume setup | `/usr/bin/configure_audio.sh`, `configure_audio.service` (enabled, not started at install) |
+| Package | Version | Source |
+| --- | --- | --- |
+| `satellite1-rpi-setup-trixie` | 1.5-1 | [Satellite1-RPi-Setup](https://github.com/FutureProofHomes/Satellite1-RPi-Setup/releases/tag/v1.5-1-trixie) |
+| `satellite1-rpi-sdk` | 0.1.6 | [Satellite1-RPi-SDK](https://github.com/FutureProofHomes/Satellite1-RPi-SDK/releases/tag/v0.1.6) |
 
-The files are the ones of the image without changes.
+Both are `arm64` only. `debian/rules` downloads the `.deb` files while the package is built, checks the SHA256 and copies them to the build output without changing them, so the packages in the APT repository are the packages of FutureProofHomes, with their version. Both are licensed under GPL-3.0, the source is in the repositories above. The files of this repository itself (`debian/`) are MIT licensed.
 
-## The driver is not part of this package
+The package `satellite1-rpi-setup-trixie` replaces `satellite1-rpi-setup` (the version for other releases). There is no marker package, so nothing stops an installation next to another `picompose-driver-*` package.
 
-The image downloads three packages from the GitHub releases of FutureProofHomes while it is built and installs them with `dpkg`: the custom kernel `linux-image-6.18.34-fusb302-rpi-v8`, `satellite1-rpi-setup` and `satellite1-rpi-sdk`. This package does **not** install them. A package cannot install other packages while it is installed (`dpkg` is locked), and a service that installs packages is not wanted. So on a system without those three packages the Satellite1 does not work, whatever this package does. Until FutureProofHomes provides an APT repository, the PiCompose image installs them as before, see `todo.md`.
+## Update a package
 
-What this package carries is the part of the stage that is plain configuration: the WirePlumber rule and the volume service.
+1. In `debian/rules`, change the version, the download URL and the checksum (`sha256sum` of the downloaded file). If a package gets a new name, also change `debian/control` and `sources.yml` of the APT repository.
+2. Open a pull request with a version label. The version of the source package (the first entry of `debian/changelog`) only counts the releases of this repository, the packages keep the version of FutureProofHomes.
 
-## One driver per system
-
-All `picompose-driver-*` packages provide `picompose-audio-driver` and conflict with it. Installing one removes another, because a system has one audio device and all of them install `configure_audio.sh` and `configure_audio.service`.
+`debian/skip-lintian` skips lintian in the build, because the packages of FutureProofHomes have problems (no copyright file and others) that cannot be fixed without changing them.
 
 ## Versioning and changelog
 

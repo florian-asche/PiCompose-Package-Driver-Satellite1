@@ -1,23 +1,20 @@
 # Abweichungen von der Stage `02-stage-audiodriver-satellite1-v1.0`
 
-Dieses Dokument beschreibt, was das Paket `picompose-driver-satellite1` anders macht als die gleichnamige Stage im [PiCompose](https://github.com/florian-asche/PiCompose)-Repository. Verglichen wurde mit dem Stand von `main` (Commit `784abfb`, 17.11.2026). Gepflegt wird es auf Deutsch, auf Wunsch des Entwicklers.
+Dieses Dokument beschreibt, was dieses Repository anders macht als die gleichnamige Stage im [PiCompose](https://github.com/florian-asche/PiCompose)-Repository. Verglichen wurde mit dem Stand von `main` (Commit `fe56bb4`, 20.11.2026). Gepflegt wird es auf Deutsch, auf Wunsch des Entwicklers.
 
 Pflege: Jede Änderung, die eine Abweichung neu schafft, ändert oder beseitigt, aktualisiert dieses Dokument. Prüfe dabei gegen den aktuellen `main` von PiCompose.
 
-## Nicht im Paket
-
-- **Die Pakete von FutureProofHomes.** Der Schritt `01-driver/03-run-chroot.sh` lädt den Custom-Kernel (`linux-image-6.18.34-fusb302-rpi-v8`), `satellite1-rpi-setup` und `satellite1-rpi-sdk` von GitHub und installiert sie mit `dpkg -i`. Das bleibt in PiCompose. Ein Paket kann beim Installieren keine anderen Pakete installieren, und ein Dienst dafür ist nicht gewollt. Ohne diese Pakete funktioniert der Satellite1 nicht.
-- **Pakete der Stage** (`01-driver/01-packages`: `git`, `dkms`, `curl`, `wget`, `i2c-tools`, `libasound2-plugins`, `alsa-utils`). Das Paket hängt nur von `wireplumber` und `alsa-utils` ab, weil es nur die Konfiguration und den Lautstärke-Dienst enthält.
-
 ## Anders gelöst
 
-- Die Unit-Datei liegt in `/usr/lib/systemd/system/` statt in `/etc/systemd/system/`. Aktiviert wird sie durch `dh_installsystemd` im Paket (beim Installieren aktiviert, aber nicht gestartet) statt durch `systemctl enable` im Chroot der Stage. Der Inhalt der Unit ist unverändert.
-- `51-disable-acp.conf` liegt am selben Ort wie in der Stage, ist aber als Conffile gekennzeichnet.
+- **Die Pakete kommen aus dem APT-Repository.** `01-driver/03-run-chroot.sh` lädt `satellite1-rpi-setup-trixie` 1.5-1 und `satellite1-rpi-sdk` 0.1.6 von GitHub und installiert sie mit `dpkg -i`. Hier lädt der Paket-Build dieselben Dateien (gleiche URLs), prüft den SHA256 und veröffentlicht sie unverändert, nach `trixie-nightly` (Push auf `main`) und `trixie` (Release).
+- **Ein Prüfsummen-Check, den die Stage nicht hat.** Ändert FutureProofHomes ein Release-Asset, schlägt der Build fehl.
 
-## Zusätzlich im Paket
+## Nicht im Paket
 
-- `Provides`, `Conflicts` und `Replaces` für `picompose-audio-driver`.
+- **Pakete der Stage** (`01-driver/01-packages`: `git`, `dkms`, `curl`, `wget`, `i2c-tools`, `libasound2-plugins`, `alsa-utils`, `python3-venv`, `flashrom`). Die Pakete von FutureProofHomes bringen ihre Abhängigkeiten selbst mit (`python3-venv`, `python3-pip`, `flashrom`, `libasound2-plugins`). Wer `git`, `dkms`, `curl`, `wget`, `i2c-tools` und `alsa-utils` braucht, installiert sie weiter in der Stage.
+- **Das Marker-Paket `picompose-driver-satellite1`** mit `Provides`, `Conflicts` und `Replaces` für `picompose-audio-driver` gibt es nicht mehr. Die Pakete von FutureProofHomes liefern das nicht, also verhindert APT keine Installation neben einem anderen `picompose-driver-*`-Paket, siehe `todo.md`.
+- **`configure_audio` und `51-disable-acp.conf`** gibt es nicht mehr (siehe die früheren Versionen dieses Repositories). Die Lautstärke kommt aus `picompose-core`, das Mikrofon braucht `satellite1-rpi-setup` 1.5-1 oder neuer.
 
-## Unverändert
+## Zusätzlich
 
-- `51-disable-acp.conf`, `configure_audio.sh` und `configure_audio.service` sind Byte für Byte die Dateien der Stage. Die Unit nennt `seeed-voicecard.service` in `After=` und `Wants=`, die es in diesem Paket nicht gibt, genau wie in der Stage.
+- `debian/skip-lintian`: lintian läuft für dieses Repository nicht, weil die Pakete von FutureProofHomes lintian-Fehler haben.

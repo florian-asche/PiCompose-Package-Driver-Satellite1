@@ -1,7 +1,36 @@
 #!/usr/bin/make -f
 
+# The packages of FutureProofHomes are downloaded while the package is built and published unchanged.
+# To update one, change the version, the URL and the checksum (sha256sum of the downloaded file).
+SETUP_VERSION = 1.5-1
+SETUP_DEB = satellite1-rpi-setup-trixie_$(SETUP_VERSION)_arm64.deb
+SETUP_URL = https://github.com/FutureProofHomes/Satellite1-RPi-Setup/releases/download/v1.5-1-trixie/$(SETUP_DEB)
+SETUP_SHA256 = 34df6d8e0555a0b5edb296ed0cd593db018f1e8e9ea430dfe21ad9e9dd9ac0c0
+
+SDK_VERSION = 0.1.6
+SDK_DEB = satellite1-rpi-sdk_$(SDK_VERSION)_arm64.deb
+SDK_URL = https://github.com/FutureProofHomes/Satellite1-RPi-SDK/releases/download/v$(SDK_VERSION)/$(SDK_DEB)
+SDK_SHA256 = 5f0f252bbc7ae26047dab53cffa48338af04fafbd3223b47fe4584c53b9cf859
+
+UPSTREAM_DIR = debian/upstream
+
 %:
 	dh $@
 
-override_dh_installsystemd:
-	dh_installsystemd --no-start --no-restart-after-upgrade configure_audio.service
+override_dh_auto_build:
+	mkdir -p $(UPSTREAM_DIR)
+	wget --no-verbose --output-document=$(UPSTREAM_DIR)/$(SETUP_DEB) $(SETUP_URL)
+	wget --no-verbose --output-document=$(UPSTREAM_DIR)/$(SDK_DEB) $(SDK_URL)
+	echo "$(SETUP_SHA256)  $(UPSTREAM_DIR)/$(SETUP_DEB)" | sha256sum --check -
+	echo "$(SDK_SHA256)  $(UPSTREAM_DIR)/$(SDK_DEB)" | sha256sum --check -
+
+override_dh_gencontrol:
+	dh_gencontrol --package=satellite1-rpi-setup-trixie -- -v$(SETUP_VERSION)
+	dh_gencontrol --package=satellite1-rpi-sdk -- -v$(SDK_VERSION)
+
+override_dh_builddeb:
+	cp $(UPSTREAM_DIR)/*.deb ..
+
+override_dh_clean:
+	dh_clean
+	rm -rf $(UPSTREAM_DIR)

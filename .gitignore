@@ -11,3 +11,4 @@ debian/files
 debian/picompose-driver-satellite1/
 debian/debhelper-build-stamp
 out/
+debian/upstream/
