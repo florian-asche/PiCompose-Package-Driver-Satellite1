@@ -8,6 +8,8 @@ Open points and work that was postponed. Remove an entry in the change that sett
 
 3. **Test on hardware:** Nothing was tested on a Satellite1.
 
-4. **Test the volume on hardware:** `configure_audio.service` was removed. The default volume of 100 % should now come from `audio.volume = 1.0` for `alsa_output.*` nodes in `50-alsa-output.conf` of `picompose-core`. The setting `device.routes.default-sink-volume` of `51-default-volume.conf` applies to route volumes, and `51-disable-acp.conf` turns the routes of this card off, so it probably does not reach the Satellite1. Check on a Satellite1 with a fresh `~/.local/state/wireplumber` that the sink starts at 100 %.
+4. **Test the volume on hardware:** `configure_audio.service` was removed. The default volume of 100 % should come from `audio.volume = 1.0` for `alsa_output.*` nodes in `50-alsa-output.conf` of `picompose-core`. On a Satellite1 with the ACP profile set of `satellite1-rpi-setup` 1.5-1 the sink showed 1.00, but not with a fresh `~/.local/state/wireplumber`. Check that the sink starts at 100 % with a fresh state.
 
-5. **Is `51-disable-acp.conf` still needed:** The reason is not documented, the file came with a general audio fix for all driver stages. Check on hardware whether the card works with ACP enabled, and drop the file if it does.
+5. **The package is empty:** It contains no files after `51-disable-acp.conf` was removed, it only provides `picompose-audio-driver`. Decide whether to keep it as a marker, or to drop it, or to give it `Depends` on the packages of FutureProofHomes (see 1).
+
+6. **Install `satellite1-rpi-setup` 1.5-1 or newer in the image:** The PiCompose stage downloads `satellite1-rpi-setup` itself. Without 1.5-1 the microphone does not work, since this package no longer turns ACP off.

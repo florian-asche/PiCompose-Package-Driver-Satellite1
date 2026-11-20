@@ -8,17 +8,13 @@ What differs from how the stage does it is documented in [diff.md](diff.md) (in 
 
 ## Contents
 
-| Part | Files |
-| --- | --- |
-| WirePlumber | `/etc/wireplumber/wireplumber.conf.d/51-disable-acp.conf` turns off the ALSA card profile handling (ACP) for the card `alsa_card.platform-soc_sound` |
+The package contains no files. Until FutureProofHomes provides an APT repository, it only marks the Satellite1 as the audio driver of the system: it provides `picompose-audio-driver` (see "One driver per system").
 
-The file is the one of the image without changes. The default volume of the sound card is not set by this package, see [diff.md](diff.md).
+The WirePlumber rule that turned off the ALSA card profile handling (ACP) is gone. The microphone works with ACP enabled since `satellite1-rpi-setup` 1.5-1, which ships an ACP profile set and a udev rule for the card. **Without that version or a newer one the microphone does not work.** See [diff.md](diff.md).
 
 ## The driver is not part of this package
 
 The image downloads three packages from the GitHub releases of FutureProofHomes while it is built and installs them with `dpkg`: the custom kernel `linux-image-6.18.34-fusb302-rpi-v8`, `satellite1-rpi-setup` and `satellite1-rpi-sdk`. This package does **not** install them. A package cannot install other packages while it is installed (`dpkg` is locked), and a service that installs packages is not wanted. So on a system without those three packages the Satellite1 does not work, whatever this package does. Until FutureProofHomes provides an APT repository, the PiCompose image installs them as before, see `todo.md`.
-
-What this package carries is the part of the stage that is plain configuration: the WirePlumber rule.
 
 ## One driver per system
 
