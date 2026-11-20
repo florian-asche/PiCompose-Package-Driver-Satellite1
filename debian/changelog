@@ -1,3 +1,9 @@
+picompose-driver-satellite1 (0.0.2) trixie; urgency=medium
+
+  * Check for updates of the GitHub Actions daily (#5)
+
+ -- Florian Asche <github@florian-asche.de>  Fri, 20 Nov 2026 20:11:56 +0000
+
 picompose-driver-satellite1 (0.0.1) trixie; urgency=medium
 
   * Add CLAUDE.md with the working rules and the Raspberry Pi OS compatibility check
