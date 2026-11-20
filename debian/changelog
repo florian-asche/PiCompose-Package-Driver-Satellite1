@@ -1,3 +1,9 @@
+picompose-driver-satellite1 (0.0.3) trixie; urgency=medium
+
+  * Use version 1.1.0 of the shared workflows (#6)
+
+ -- Florian Asche <github@florian-asche.de>  Fri, 20 Nov 2026 20:19:51 +0000
+
 picompose-driver-satellite1 (0.0.2) trixie; urgency=medium
 
   * Check for updates of the GitHub Actions daily (#5)
