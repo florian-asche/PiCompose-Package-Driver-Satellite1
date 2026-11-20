@@ -1,3 +1,9 @@
+picompose-driver-satellite1 (1.0.2) trixie; urgency=medium
+
+  * Remove the finished todo points about the old package and the marker (#8)
+
+ -- Florian Asche <github@florian-asche.de>  Fri, 20 Nov 2026 20:48:56 +0000
+
 picompose-driver-satellite1 (1.0.1) trixie; urgency=medium
 
   * Remove diff.md and the finished todo points, explain FPH in CLAUDE.md (#7)
