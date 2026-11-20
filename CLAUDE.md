@@ -1,16 +1,22 @@
 # AI working guide for PiCompose-Package-Driver-Satellite1
 
-Publishes the packages `satellite1-rpi-setup-trixie` and `satellite1-rpi-sdk` of FutureProofHomes unchanged to the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). They replace the downloads of the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image. `debian/rules` downloads the `.deb` files at build time and checks the SHA256. Read `README.md` for what the package contains. When this file and the code disagree, the code wins, fix this file in the same change.
+Publishes the packages `satellite1-rpi-setup-trixie` and `satellite1-rpi-sdk` of FutureProofHomes (FPH) unchanged to the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository). They replace the downloads of the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image. `debian/rules` downloads the `.deb` files at build time and checks the SHA256. Read `README.md` for what the package contains. When this file and the code disagree, the code wins, fix this file in the same change.
+
+**FPH = FutureProofHomes**, the maker of the Satellite1. Their repositories:
+
+- [FutureProofHomes](https://github.com/FutureProofHomes): the organization.
+- [Satellite1-RPi-Setup](https://github.com/FutureProofHomes/Satellite1-RPi-Setup): source of `satellite1-rpi-setup-trixie` (releases: `v1.5-1-trixie`).
+- [Satellite1-RPi-SDK](https://github.com/FutureProofHomes/Satellite1-RPi-SDK): source of `satellite1-rpi-sdk` (releases: `v0.1.6`).
+- [RPi-Kernel-Fusb302](https://github.com/FutureProofHomes/RPi-Kernel-Fusb302): the custom kernel of the Satellite1, not published by this repository.
 
 ## Rules
 
 - **PiCompose and linux-voice-assistant are read only.** Never change anything in the PiCompose repository or in the linux-voice-assistant repository, not locally and not on GitHub. They are references for what the image does and what the voice assistant needs.
 - Nothing is posted to GitHub (pull requests, discussions, comments) and nothing is pushed without the explicit consent of the developer. A human reviews every change, see `.github/AI_POLICY.md`.
-- Documentation, code comments, commit and PR text are in English, whatever language the conversation is in. The one exception is `diff.md`, which is in German on the developer's request.
-- **`diff.md` documents every deviation from how the PiCompose stage did it.** Keep it up to date: when a change creates, changes or removes a deviation (a file that differs, something that is not in the package, something done another way, an added dependency), update `diff.md` in the same change, and compare against the current `main` of PiCompose.
+- Documentation, code comments, commit and PR text are in English, whatever language the conversation is in.
 - **Open points live in `todo.md`.** Read it before you start. When the developer postpones something ("we do that later") or you find something you cannot settle in this change, add an entry there, and remove the entry in the change that settles it.
 - Do not edit `debian/changelog`. The workflows write it: every pull request needs exactly one of the labels `major`, `minor` and `patch` (tick one box under "Version bump" in the pull request description), and the version follows from it when the pull request is merged.
-- The packages never download anything while they are installed. Where the PiCompose stage downloaded sources while it built the image, the package build downloads the same (see `diff.md` and `debian/rules`), and no third-party sources are stored in this repository.
+- The packages never download anything while they are installed. Where the PiCompose stage downloaded sources while it built the image, the package build downloads the same (see `debian/rules`), and no third-party sources are stored in this repository.
 - The packages of FutureProofHomes are published unchanged. Do not repack them. Every download has a checksum in `debian/rules`, update the checksum together with the URL. `debian/skip-lintian` makes the shared build skip lintian, keep it only while this repository republishes packages of others.
 - Hardware behavior (audio, boot configuration, kernel modules, I2C) cannot be tested here. Say that it was not tested on hardware, never claim it was.
 

@@ -4,8 +4,6 @@
 
 This repository publishes the packages of [FutureProofHomes](https://github.com/FutureProofHomes) for the Satellite1 to the [PiCompose APT repository](https://github.com/florian-asche/PiCompose-Repository), unchanged. It replaces the downloads of the stage `02-stage-audiodriver-satellite1-v1.0` of the [PiCompose](https://github.com/florian-asche/PiCompose) image, so the image can install them with `apt`.
 
-What differs from how the stage does it is documented in [diff.md](diff.md) (in German).
-
 ## Contents
 
 | Package | Version | Source |
