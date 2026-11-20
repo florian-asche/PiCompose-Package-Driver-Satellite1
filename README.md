@@ -10,7 +10,7 @@ What differs from how the stage does it is documented in [diff.md](diff.md) (in 
 
 The package contains no files. Until FutureProofHomes provides an APT repository, it only marks the Satellite1 as the audio driver of the system: it provides `picompose-audio-driver` (see "One driver per system").
 
-The WirePlumber rule that turned off the ALSA card profile handling (ACP) is gone. The microphone works with ACP enabled since `satellite1-rpi-setup` 1.5-1, which ships an ACP profile set and a udev rule for the card. **Without that version or a newer one the microphone does not work.** See [diff.md](diff.md).
+**The microphone needs `satellite1-rpi-setup` 1.5-1 or newer**, which the PiCompose image installs. See [diff.md](diff.md).
 
 ## The driver is not part of this package
 

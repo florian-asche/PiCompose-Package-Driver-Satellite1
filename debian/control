@@ -15,8 +15,8 @@ Conflicts: picompose-audio-driver
 Replaces: picompose-audio-driver
 Description: PiCompose audio driver marker for the Satellite1
  The package contains no files. It marks the Satellite1 as the audio driver of
- the system. The microphone of the card works with the ACP profile set of
- satellite1-rpi-setup 1.5-1 or newer, which the PiCompose image installs.
+ the system. The microphone of the card needs satellite1-rpi-setup 1.5-1 or
+ newer, which the PiCompose image installs.
  .
  The driver itself, the kernel and the packages of FutureProofHomes, is not
  part of this package, the PiCompose image installs it.
