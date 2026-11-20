@@ -10,16 +10,13 @@ Rules-Requires-Root: no
 Package: picompose-driver-satellite1
 Architecture: all
 Depends: ${misc:Depends},
- wireplumber,
- alsa-utils
+ wireplumber
 Provides: picompose-audio-driver
 Conflicts: picompose-audio-driver
 Replaces: picompose-audio-driver
 Description: PiCompose audio setup for the Satellite1
  Audio setup for the Satellite1 of FutureProofHomes: it disables the ALSA
- card profile handling of WirePlumber for the sound card of the board and
- sets the volume of the default sound card and its PipeWire sink to the
- maximum when the system starts.
+ card profile handling of WirePlumber for the sound card of the board.
  .
  The driver itself, the kernel and the packages of FutureProofHomes, is not
  part of this package, the PiCompose image installs it.
