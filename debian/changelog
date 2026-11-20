@@ -1,3 +1,9 @@
+picompose-driver-satellite1 (1.0.1) trixie; urgency=medium
+
+  * Remove diff.md and the finished todo points, explain FPH in CLAUDE.md (#7)
+
+ -- Florian Asche <github@florian-asche.de>  Fri, 20 Nov 2026 20:30:14 +0000
+
 picompose-driver-satellite1 (1.0.0) trixie; urgency=medium
 
   * Publish the packages of FutureProofHomes for the Satellite1 unchanged (#4)
